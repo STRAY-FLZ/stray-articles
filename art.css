@@ -1,6 +1,6 @@
 /* Personal visual controls. Keep this file when updating site.css. */
 :root {
-  /* Main palette: change these six colors to restyle the whole website. */
+  /* Main palette: change these colors to restyle the whole website. */
   --paper: #f4f5f6;
   --surface: #ffffff;
   --ink: #262c34;
@@ -12,9 +12,7 @@
   /* Put artwork in assets/art/, then replace none with a url as shown below.
      Example: --art-hero-image: url("assets/art/hero.webp"); */
   --art-hero-image: none;
-  --art-people-image: none;
-  --art-visual-image: none;
-  --art-world-image: none;
+  --art-inspiration-image: none;
   --art-travel-image: none;
   --art-about-image: none;
 }
