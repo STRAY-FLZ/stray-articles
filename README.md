@@ -1,18 +1,21 @@
 # Stray 文字档案
 
-个人文章网站的 GitHub Pages 发布版本。首页、四篇文章和游记栏目均为静态网页；无需服务器或数据库。
+个人文章网站的 GitHub Pages 发布版本。首页按“人物、影像、世界、游记”引导阅读；文章分别放在主题页，不会在首页一次性全部展开。
 
-## 发布
+## 页面
 
-在仓库的 **Settings → Pages** 中，选择 **Deploy from a branch**，分支选 `main`，目录选 `/(root)`。
+- `index.html`：首页和主题入口
+- `topics/people/`、`topics/visual/`、`topics/world/`：分类文章
+- `travel/`：未来的游记栏目
+- `about/`：关于网站
+- `articles/`：四篇文章的正文
 
-## 更新
+## 加入自己的美术
 
-- 首页：`index.html`
-- 文章正文：`articles/文章目录/index.html`
-- 游记栏目：`travel/index.html`
-- 页面样式：`site.css`
+把图片放进 `assets/art/`，然后在 `art.css` 设置对应图片路径和配色。具体尺寸、变量和示例见 [ART_GUIDE.md](ART_GUIDE.md)。网站自带默认抽象图形，暂时没有个人作品也能正常展示。
 
-新增文章时，可以在 `articles/` 中复制一个文章目录，修改内容，并在首页添加链接。提交到 `main` 后，GitHub Pages 会重新发布。
+## 发布与更新
 
-文章和站点当前会公开展示。发布前请核对题目、署名与正文，并在以后加入照片时确认使用权。
+在仓库的 **Settings → Pages** 中，选择 **Deploy from a branch**，分支选 `main`，目录选 `/(root)`。以后更新网页、文章或美术文件，提交到 `main` 后即可重新发布。
+
+本站内容和上传的图片会公开展示。发布前请核对文章署名、正文和图片使用权。
