@@ -64,6 +64,16 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
 .editorial-row { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2.4rem; padding-block: 2.5rem 2.7rem; border-top: 1px solid var(--line); align-items: start; }
 .editorial-row h2 { margin: 0; font-size: 1.42rem; font-weight: 750; letter-spacing: -.035em; }
 .editorial-row p { max-width: 42rem; margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.9; }
+.education-section { padding-block: 1.25rem; border-top: 1px solid var(--line); }
+.education-summary { display: block; list-style: none; cursor: pointer; user-select: none; touch-action: manipulation; -webkit-tap-highlight-color: rgb(40 75 121 / 10%); }
+.education-summary::-webkit-details-marker { display: none; }
+.education-summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+.education-summary h2 { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin: 0; font-size: 1.42rem; font-weight: 750; letter-spacing: -.035em; line-height: 1.5; }
+.education-toggle { display: inline-flex; flex: 0 0 44px; align-items: center; justify-content: center; min-height: 44px; color: var(--ink); font-size: 1.8rem; font-weight: 400; letter-spacing: 0; }
+.education-toggle::before { content: "+"; }
+.education-disclosure[open] .education-toggle::before { content: "−"; }
+.education-summary:hover .education-toggle { color: var(--blue); }
+.education-content { padding: 1.5rem 0 1.2rem 17.4rem; }
 .education-list { min-width: 0; margin: 0; padding: 0; list-style: none; }
 .education-item { position: relative; display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.5rem; padding: 0 0 1.8rem 1.5rem; border-left: 1px solid var(--line); }
 .education-item:last-child { padding-bottom: 0; border-left-color: transparent; }
@@ -72,7 +82,7 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
 .education-item__dates { white-space: nowrap; }
 .education-item__expected { display: block; margin-top: .25rem; font-size: .75rem; }
 .education-item__details h3 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.5; }
-.education-item__details p { margin-top: .35rem; font-size: .88rem; line-height: 1.7; }
+.education-item__details p { margin: .35rem 0 0; color: var(--muted); font-size: .88rem; line-height: 1.7; }
 .education-item__status { color: var(--blue); font-weight: 650; }
 .topics-section { padding-block: 3.7rem 4rem; border-top: 1px solid var(--line); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 1.8rem; }
@@ -173,6 +183,7 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
   .visual-plate--hero { min-height: 290px; }
   .visual-glyph { font-size: 13rem; }
   .editorial-row { grid-template-columns: 1fr; gap: .85rem; padding-block: 2rem; }
+  .education-content { padding: 1.2rem 0 .5rem; }
   .education-item { grid-template-columns: 1fr; gap: .45rem; padding-left: 1.3rem; }
   .topics-section { padding-block: 3rem; }
   .section-heading { align-items: start; flex-direction: column; gap: .6rem; }
