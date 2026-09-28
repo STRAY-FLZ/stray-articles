@@ -54,9 +54,23 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
 .visual-line--two { top: 45%; right: 2%; width: 41%; transform: rotate(20deg); }
 .visual-label { position: absolute; z-index: 3; right: 1.1rem; bottom: 1rem; left: 1.1rem; display: flex; justify-content: space-between; gap: 1rem; color: var(--ink); font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .visual-label span { color: var(--muted); }
-.visual-plate--hero { --visual-image: var(--art-hero-image); --visual-fit: contain; min-height: 440px; background: transparent; }
-.visual-plate--hero .visual-ring { top: 10%; left: 24%; width: 56%; }
-.visual-plate--hero .visual-glyph { top: 17%; left: 41%; }
+.visual-plate--hero { --visual-image: var(--art-hero-image); --visual-fit: contain; display: grid; place-items: center; min-height: 440px; background: transparent; }
+.visual-plate--hero::after { z-index: 0; }
+/* Preserve the whole illustration; blend only its outer edge into the paper. */
+.hero-portrait {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 1.25rem;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 3%, #000 97%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent), linear-gradient(to bottom, transparent, #000 3%, #000 97%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
 .visual-plate--inspiration { --visual-image: var(--art-inspiration-image); background: #e4e7eb; }
 .visual-plate--travel { --visual-image: var(--art-travel-image); background: #e9e7e2; }
 .visual-plate--about { --visual-image: var(--art-about-image); background: #e5e8eb; }

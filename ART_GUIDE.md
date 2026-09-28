@@ -2,19 +2,25 @@
 
 网站的文章、栏目和外观是分开的。你可以先只换图片和颜色，不必碰文章正文。
 
-## 一张图就能开始
+## 首页头像
 
-1. 把首页作品导出为 `hero.webp` 或 `hero.png`，放进 `assets/art/` 文件夹。建议横向画布约 1600 × 1200 像素；如果是人物剪影、拼贴或插画，可以导出透明背景的 PNG。
+首页目前使用 `assets/art/avatar.png`，完整展示头像，不做圆形裁切。边缘的柔和过渡由 `site.css` 中的 `.hero-portrait` 样式实现，原图没有被重绘或修改。
+
+以后换头像，可以替换这个同名文件；如果新图不是正方形，也请同步修改首页 `index.html` 中图片的 `width`、`height`，以及 `.hero-portrait` 的 `aspect-ratio`，保持新图原本的比例。
+
+## 添加背景或栏目美术
+
+1. 把首页背景作品导出为 `hero.webp` 或 `hero.png`，放进 `assets/art/` 文件夹。建议横向画布约 1600 × 1200 像素；如果是拼贴或插画，可以导出透明背景的 PNG。
 2. 打开网站根目录的 `art.css`，把 `--art-hero-image: none;` 改为 `--art-hero-image: url("assets/art/hero.webp");`。如果是 PNG，把扩展名改为 `.png`。
 3. 刷新网页预览。确认满意后，把新图片和改过的 `art.css` 一起上传到 GitHub 仓库，GitHub Pages 会随提交更新。
 
-右侧的抽象图形是默认占位设计；加入图片后，图片会覆盖它。透明图片会与底下的图形叠加。
+首页背景会显示在头像下方。灵感、游记和关于页面的抽象图形仍是默认占位设计；加入栏目图片后，图片会覆盖它。透明图片会与底下的图形叠加。
 
 ## 每个位置对应哪个变量
 
 | 页面位置 | `art.css` 变量 | 建议图片 |
 | --- | --- | --- |
-| 首页右侧主视觉 | `--art-hero-image` | `assets/art/hero.webp` |
+| 首页右侧头像背景 | `--art-hero-image` | `assets/art/hero.webp` |
 | “灵感”栏目页 | `--art-inspiration-image` | `assets/art/inspiration.webp` |
 | “游记”栏目页 | `--art-travel-image` | `assets/art/travel.webp` |
 | “关于”页面 | `--art-about-image` | `assets/art/about.webp` |
