@@ -64,6 +64,16 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
 .editorial-row { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2.4rem; padding-block: 2.5rem 2.7rem; border-top: 1px solid var(--line); align-items: start; }
 .editorial-row h2 { margin: 0; font-size: 1.42rem; font-weight: 750; letter-spacing: -.035em; }
 .editorial-row p { max-width: 42rem; margin: 0; color: var(--muted); font-size: 1.02rem; line-height: 1.9; }
+.education-list { min-width: 0; margin: 0; padding: 0; list-style: none; }
+.education-item { position: relative; display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.5rem; padding: 0 0 1.8rem 1.5rem; border-left: 1px solid var(--line); }
+.education-item:last-child { padding-bottom: 0; border-left-color: transparent; }
+.education-item::before { content: ""; position: absolute; top: .45rem; left: -4px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+.education-item__period { color: var(--muted); font-size: .87rem; line-height: 1.7; font-variant-numeric: tabular-nums; }
+.education-item__dates { white-space: nowrap; }
+.education-item__expected { display: block; margin-top: .25rem; font-size: .75rem; }
+.education-item__details h3 { margin: 0; font-size: 1.1rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.5; }
+.education-item__details p { margin-top: .35rem; font-size: .88rem; line-height: 1.7; }
+.education-item__status { color: var(--blue); font-weight: 650; }
 .topics-section { padding-block: 3.7rem 4rem; border-top: 1px solid var(--line); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 1.8rem; }
 .section-heading h2 { margin: .7rem 0 0; font-size: clamp(1.8rem, 3vw, 2.55rem); font-weight: 780; letter-spacing: -.045em; }
@@ -163,6 +173,7 @@ a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
   .visual-plate--hero { min-height: 290px; }
   .visual-glyph { font-size: 13rem; }
   .editorial-row { grid-template-columns: 1fr; gap: .85rem; padding-block: 2rem; }
+  .education-item { grid-template-columns: 1fr; gap: .45rem; padding-left: 1.3rem; }
   .topics-section { padding-block: 3rem; }
   .section-heading { align-items: start; flex-direction: column; gap: .6rem; }
   .topic-row { grid-template-columns: 2rem minmax(0, 1fr) 1rem; gap: .75rem; min-height: 110px; }
