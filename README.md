@@ -1,13 +1,14 @@
 # Stray 文字档案
 
-个人文章网站的 GitHub Pages 发布版本。导航为“首页、灵感、游记、关于”；四篇文章统一排列在“灵感”，不再细分主题。
+个人文章网站的 GitHub Pages 发布版本。导航为“首页、灵感、旅途、工具、关于”；四篇文章统一排列在“灵感”，不再细分主题。
 
 ## 页面
 
 - `index.html`：首页和栏目入口
 - `inspiration/`：所有文章的统一列表
 - `topics/people/`、`topics/visual/`、`topics/world/`：旧栏目链接，自动跳转到“灵感”
-- `travel/`：未来的游记栏目
+- `travel/`：旅途栏目，保留原有网址
+- `tools/`：笔记和小工具栏目，目前为待更新页面
 - `about/`：关于网站
 - `articles/`：四篇文章的正文
 

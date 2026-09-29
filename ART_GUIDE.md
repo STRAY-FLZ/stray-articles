@@ -14,7 +14,7 @@
 2. 打开网站根目录的 `art.css`，把 `--art-hero-image: none;` 改为 `--art-hero-image: url("assets/art/hero.webp");`。如果是 PNG，把扩展名改为 `.png`。
 3. 刷新网页预览。确认满意后，把新图片和改过的 `art.css` 一起上传到 GitHub 仓库，GitHub Pages 会随提交更新。
 
-首页背景会显示在头像下方。灵感、游记和关于页面的抽象图形仍是默认占位设计；加入栏目图片后，图片会覆盖它。透明图片会与底下的图形叠加。
+首页背景会显示在头像下方。灵感、旅途和关于页面的抽象图形仍是默认占位设计；加入栏目图片后，图片会覆盖它。透明图片会与底下的图形叠加。
 
 ## 每个位置对应哪个变量
 
@@ -22,7 +22,7 @@
 | --- | --- | --- |
 | 首页右侧头像背景 | `--art-hero-image` | `assets/art/hero.webp` |
 | “灵感”栏目页 | `--art-inspiration-image` | `assets/art/inspiration.webp` |
-| “游记”栏目页 | `--art-travel-image` | `assets/art/travel.webp` |
+| “旅途”栏目页 | `--art-travel-image` | `assets/art/travel.webp` |
 | “关于”页面 | `--art-about-image` | `assets/art/about.webp` |
 
 栏目页图片建议使用约 1200 × 900 像素的横向画面。它们会填满画框，窄屏可能裁掉边缘，请把主体放在中间。首页主视觉以“完整呈现”为优先，更适合透明人物插画或留白充足的拼贴。
