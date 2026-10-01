@@ -10,7 +10,8 @@ let previewVersion = 'original';
 let previewGeneration = 0;
 const previewImageUrls = [];
 const vendor = new URL('vendor/', import.meta.url);
-const MAX_BYTES = 20 * 1024 * 1024;
+const MAX_MB = 150;
+const MAX_BYTES = MAX_MB * 1024 * 1024;
 const MAX_FILES = 12;
 const MAX_PDF_PAGES = 60;
 const MAX_IMAGES = 12;
@@ -123,7 +124,7 @@ function addFiles(files, kind) {
     const extension = kind === 'pdf' ? /\.pdf$/i : /\.docx$/i;
     if (!extension.test(file.name)) { errors.push(`${file.name}：请选择 ${kind === 'pdf' ? '.pdf' : '.docx'} 文件${/\.doc$/i.test(file.name) ? '，旧版 .doc 请先另存为 .docx' : ''}。`); continue; }
     if (!file.size) { errors.push(`${file.name}：文件为空。`); continue; }
-    if (file.size > MAX_BYTES) { errors.push(`${file.name}：超过 20 MB，请压缩或拆分后重试。`); continue; }
+    if (file.size > MAX_BYTES) { errors.push(`${file.name}：超过 ${MAX_MB} MB，请压缩或拆分后重试。`); continue; }
     if (items.length >= MAX_FILES) { errors.push('列表最多保留 12 个文件，请移除部分文件后再添加。'); break; }
     if (items.some((item) => item.kind === kind && item.file.name === file.name && item.file.size === file.size && item.file.lastModified === file.lastModified)) {
       errors.push(`${file.name} 已在列表中。`); continue;
@@ -144,7 +145,7 @@ function addImages(files) {
   for (const file of files) {
     if (!imageExtension.test(file.name)) errors.push(`${file.name}：请选择 JPG、PNG 或 WebP 图片。`);
     else if (!file.size) errors.push(`${file.name}：文件为空。`);
-    else if (file.size > MAX_BYTES) errors.push(`${file.name}：超过 20 MB，请压缩后重试。`);
+    else if (file.size > MAX_BYTES) errors.push(`${file.name}：超过 ${MAX_MB} MB，请压缩后重试。`);
   }
   // Reject the whole selection on validation errors so no page is silently omitted.
   if (errors.length) { announce(`${errors.join(' ')} 本次未生成 PDF，请调整后重新选择。`); return; }

@@ -10,7 +10,7 @@
   <script src="../../theme.js"></script>
   <link rel="stylesheet" href="../../site.css">
   <link rel="stylesheet" href="converter.css?v=20261001-layout">
-  <script src="converter.js?v=20261001-layout" type="module"></script>
+  <script src="converter.js?v=20261001-150mb" type="module"></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main">跳到正文</a>
@@ -49,7 +49,7 @@
             <button class="upload-cta" id="select-pdf-button" type="button">选择文件 <span aria-hidden="true">＋</span></button>
             <button class="upload-cta" id="select-images-button" type="button">上传图片 <span aria-hidden="true">＋</span></button>
           </div>
-          <span class="upload-hint">也可拖拽 · PDF / JPG / PNG / WebP · 单个最大 20 MB<br>图片可多选，合成一份 PDF，每张一页</span>
+          <span class="upload-hint">也可拖拽 · PDF / JPG / PNG / WebP · 单个最大 150 MB<br>图片可多选，合成一份 PDF，每张一页</span>
         </div>
         <input class="file-input" id="pdf-input" type="file" accept=".pdf,application/pdf" aria-label="选择 PDF 文件" tabindex="-1" multiple>
         <input class="file-input" id="image-input" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" aria-label="选择用于制作 PDF 的图片" tabindex="-1" multiple>
@@ -62,7 +62,7 @@
           <h2>上传 Word</h2>
           <p>将编辑文档，整理为便于分享的 PDF。</p>
           <span class="upload-cta">选择文件 <span aria-hidden="true">＋</span></span>
-          <span class="upload-hint">也可以拖拽到这里 · .docx · 最大 20 MB</span>
+          <span class="upload-hint">也可以拖拽到这里 · .docx · 最大 150 MB</span>
         </label>
         <input class="file-input" id="word-input" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
         <div class="card-option"><span>输出格式</span><span>A4 页面 <span class="option-divider">/</span> .pdf</span></div>
@@ -85,7 +85,7 @@
         <p>排版完成后，可通过“排版预览”对照原 PDF，并用“下载排版”保存另一份 DOCX；原转换文件仍保留。预览为排版示意，字体替换及 Word 的渲染可能带来差异，最终以 Word 打开为准。</p>
         <p>Word → PDF：支持 .docx 的文字、图片和基础表格，按 A4 重新排版；页眉页脚、分页及复杂样式可能变化。初版 PDF 以页面图像生成，文字暂不可选中。旧版 .doc 请先另存为 .docx。</p>
         <p>图片 → PDF：支持 JPG、PNG、WebP；一次最多选择 12 张，按选择顺序合成一份 A4 PDF，每张一页，等比例居中、不裁切。透明背景转换为白色，过大的图片会缩小；每张图片最多 4,000 万像素。下方“转换方式”仅用于 PDF → Word。</p>
-        <p>单个文件最大 20 MB；列表最多 12 个任务；PDF 最多 60 页。不支持 OCR；PDF 和排版结果预览前 5 页，完整文件可下载。页面超过 Word 支持的 22 英寸边长等情况无法排版，原转换文件仍可下载。转换后请预览确认。</p>
+        <p>单个文件最大 150 MB；列表最多 12 个任务；PDF 最多 60 页。大文件在浏览器本地处理，可能耗时较长或受设备内存限制，建议逐个转换。不支持 OCR；PDF 和排版结果预览前 5 页，完整文件可下载。页面超过 Word 支持的 22 英寸边长等情况无法排版，原转换文件仍可下载。转换后请预览确认。</p>
       </div>
     </details>
     <noscript><p class="announcement">请启用 JavaScript 后使用转换工具。</p></noscript>
