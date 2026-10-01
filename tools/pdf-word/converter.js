@@ -1,3 +1,5 @@
+import { createLayoutDocument, layoutPreview } from './pdf-layout.js?v=20261001-layout';
+
 const $ = (selector) => document.querySelector(selector);
 const items = [];
 const scriptCache = new Map();
@@ -60,11 +62,16 @@ function outputName(file, extension) { return file.name.replace(/\.[^.]+$/, '') 
 function setStatus(item, message) { item.message = message; renderList(); }
 function itemName(item) { return item.displayName || item.file.name; }
 function clearPreviewImages() { for (const url of previewImageUrls.splice(0)) URL.revokeObjectURL(url); }
+function layoutBusy(item) { return ['queued', 'processing'].includes(item.layoutState); }
+function syncPreviewTabs(item) {
+  $('#original-tab').textContent = item.kind === 'pdf' ? '原 PDF' : '原文件';
+  $('#layout-tab').hidden = !item.layoutResult;
+}
 
 function renderList() {
   $('#file-count').textContent = items.length;
   $('#empty-state').hidden = items.length > 0;
-  $('#clear-button').disabled = items.length === 0 || running || items.some((item) => item.state === 'queued');
+  $('#clear-button').disabled = items.length === 0 || running || items.some((item) => item.state === 'queued' || layoutBusy(item));
   const fragment = document.createDocumentFragment();
   for (const item of items) {
     const row = document.createElement('div');
@@ -78,10 +85,10 @@ function renderList() {
     const name = document.createElement('p');
     name.className = 'file-name'; name.textContent = itemName(item);
     const status = document.createElement('div');
-    status.className = `file-status ${item.state}`;
+    status.className = `file-status ${layoutBusy(item) ? 'processing' : item.layoutState === 'error' ? 'error' : item.state}`;
     const target = item.kind === 'pdf' ? 'Word' : 'PDF';
     const source = item.kind === 'pdf' ? 'PDF' : item.kind === 'image' ? '图片' : 'Word';
-    status.textContent = `${bytesLabel(item.totalBytes ?? item.file.size)} · ${source} → ${target} · ${item.message}`;
+    status.textContent = `${bytesLabel(item.totalBytes ?? item.file.size)} · ${source} → ${target} · ${item.layoutMessage || item.message}`;
     info.append(name, status);
     const actions = document.createElement('div');
     actions.className = 'file-actions';
@@ -94,8 +101,16 @@ function renderList() {
     button('预览', 'preview').disabled = item.state !== 'ready';
     if (item.state === 'error') button('重试', 'retry');
     else button('下载', 'download', 'download-button').disabled = item.state !== 'ready';
+    if (item.kind === 'pdf') {
+      if (item.layoutResult) {
+        button('排版预览', 'preview-layout');
+        button('下载排版', 'download-layout', 'layout-button');
+      } else {
+        button(layoutBusy(item) ? '排版中…' : item.layoutState === 'error' ? '重试排版' : '一键排版', 'layout', 'layout-button').disabled = item.state !== 'ready' || layoutBusy(item);
+      }
+    }
     button('×', 'remove', 'remove-button').setAttribute('aria-label', `移除：${itemName(item)}`);
-    actions.lastChild.disabled = ['processing', 'queued'].includes(item.state);
+    actions.lastChild.disabled = ['processing', 'queued'].includes(item.state) || layoutBusy(item);
     row.append(icon, info, actions); fragment.append(row);
   }
   $('#file-list').replaceChildren(fragment);
@@ -153,7 +168,28 @@ async function processQueue() {
   renderList();
   try {
     let item;
-    while ((item = items.find((entry) => entry.state === 'queued'))) {
+    while ((item = items.find((entry) => entry.state === 'queued' || entry.layoutState === 'queued'))) {
+      if (item.layoutState === 'queued' && item.state === 'ready') {
+        item.layoutState = 'processing';
+        try {
+          await loadScript('docx.js');
+          const layout = await createLayoutDocument(item.file, {
+            openPdf, getPdfLibrary,
+            onProgress: (message) => { item.layoutMessage = message; renderList(); },
+          });
+          item.layoutResult = layout.result; item.layout = layout;
+          item.layoutOutputName = outputName(item.file, 'docx').replace(/\.docx$/, '-排版.docx');
+          item.layoutState = 'ready';
+          item.layoutMessage = `排版完成 · ${layout.totalPages} 页 · ${layout.imagePages ? `${layout.imagePages} 页按图像保留（不可编辑）` : '文字可编辑，图片与图形保留'}`;
+          if (previewItem === item) syncPreviewTabs(item);
+          announce('一键排版完成，可查看“排版预览”或下载排版后的 DOCX；原转换文件仍保留。');
+        } catch (error) {
+          item.layoutState = 'error';
+          item.layoutMessage = `排版未完成：${error.message || '请重试'}；原转换文件仍可下载。`;
+          announce(item.layoutMessage);
+        }
+        renderList(); continue;
+      }
       item.state = 'processing'; setStatus(item, '正在读取文件…');
       try {
         if (item.kind === 'pdf') await pdfToWord(item);
@@ -171,7 +207,8 @@ async function processQueue() {
     running = false; renderList();
     const ready = items.filter((item) => item.state === 'ready').length;
     const failed = items.filter((item) => item.state === 'error').length;
-    if (items.length) announce(`本地处理完成：${ready} 个文件已就绪${failed ? `，${failed} 个文件未完成，请查看提示` : '，可预览或下载'}。`);
+    const layoutFailed = items.filter((item) => item.layoutState === 'error').length;
+    if (items.length) announce(`本地处理完成：${ready} 个文件已就绪${failed ? `，${failed} 个文件未完成，请查看提示` : '，可预览或下载'}${layoutFailed ? `；${layoutFailed} 个排版任务未完成，原转换文件仍保留` : ''}。`);
   }
 }
 
@@ -364,10 +401,11 @@ async function imagesToPdf(item) {
   item.message = `制作完成 · ${item.images.length} 页 A4 PDF · 每张一页，保持比例`;
 }
 
-function download(item) {
-  if (!item.result) return;
-  const url = URL.createObjectURL(item.result);
-  const anchor = document.createElement('a'); anchor.href = url; anchor.download = item.outputName;
+function download(item, formatted = false) {
+  const result = formatted ? item.layoutResult : item.result;
+  if (!result) return;
+  const url = URL.createObjectURL(result);
+  const anchor = document.createElement('a'); anchor.href = url; anchor.download = formatted ? item.layoutOutputName : item.outputName;
   document.body.append(anchor); anchor.click(); anchor.remove();
   setTimeout(() => URL.revokeObjectURL(url), 30000);
 }
@@ -376,10 +414,13 @@ async function displayPreview() {
   clearPreviewImages();
   const item = previewItem;
   if (!item) return;
+  syncPreviewTabs(item);
   const original = previewVersion === 'original';
+  const formatted = previewVersion === 'layout';
   $('#original-tab').setAttribute('aria-pressed', String(original));
-  $('#result-tab').setAttribute('aria-pressed', String(!original));
-  $('#preview-title').textContent = original ? itemName(item) : item.outputName;
+  $('#result-tab').setAttribute('aria-pressed', String(!original && !formatted));
+  $('#layout-tab').setAttribute('aria-pressed', String(formatted));
+  $('#preview-title').textContent = formatted ? item.layoutOutputName : original ? itemName(item) : item.outputName;
   const content = $('#preview-content'); content.replaceChildren(); content.setAttribute('aria-busy', 'true');
   const loadingMessage = document.createElement('p'); loadingMessage.className = 'preview-message'; loadingMessage.textContent = '正在准备预览…'; content.append(loadingMessage);
   $('#preview-caption').textContent = '';
@@ -387,7 +428,13 @@ async function displayPreview() {
   const isPdf = original ? item.kind === 'pdf' : item.kind !== 'pdf';
   let pdf;
   try {
-    if (original && item.kind === 'image') {
+    if (formatted) {
+      if (!item.layoutResult) throw new Error('请先完成一键排版，再查看排版结果。');
+      content.replaceChildren(layoutPreview(item.layout, (blob) => {
+        const url = URL.createObjectURL(blob); previewImageUrls.push(url); return url;
+      }));
+      $('#preview-caption').textContent = `共 ${item.layout.totalPages} 页${item.layout.totalPages > 5 ? ' · 预览前 5 页' : ''} · 排版示意，Word 中可能有差异`;
+    } else if (original && item.kind === 'image') {
       const fragment = document.createDocumentFragment();
       for (const [index, file] of item.images.entries()) {
         const figure = document.createElement('figure'); figure.className = 'image-preview';
@@ -456,7 +503,14 @@ $('#file-list').addEventListener('click', (event) => {
   if (!item) return;
   switch (button.dataset.action) {
     case 'download': download(item); break;
+    case 'download-layout': download(item, true); break;
     case 'preview': previewItem = item; previewVersion = 'original'; $('#preview-dialog').showModal(); displayPreview(); break;
+    case 'preview-layout': previewItem = item; previewVersion = 'layout'; $('#preview-dialog').showModal(); displayPreview(); break;
+    case 'layout':
+      if (item.state !== 'ready' || layoutBusy(item)) return;
+      item.layoutState = 'queued'; item.layoutMessage = '排版任务已加入队列…';
+      announce('正在根据原 PDF 的页面、文字坐标和图形进行排版。原转换文件不会被覆盖。');
+      renderList(); processQueue(); break;
     case 'retry': item.state = 'queued'; item.message = '等待重试'; renderList(); processQueue(); break;
     case 'remove': items.splice(items.indexOf(item), 1); renderList(); break;
   }
@@ -467,6 +521,7 @@ $('#preview-dialog').addEventListener('close', () => { previewGeneration++; prev
 $('#preview-dialog').addEventListener('click', (event) => { if (event.target === $('#preview-dialog')) { const rect = event.target.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.target.close(); } });
 $('#original-tab').addEventListener('click', () => { previewVersion = 'original'; displayPreview(); });
 $('#result-tab').addEventListener('click', () => { previewVersion = 'result'; displayPreview(); });
+$('#layout-tab').addEventListener('click', () => { previewVersion = 'layout'; displayPreview(); });
 $('#sample-button').addEventListener('click', async () => {
   const button = $('#sample-button'); button.disabled = true;
   try {

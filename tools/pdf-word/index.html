@@ -9,8 +9,8 @@
   <link rel="icon" type="image/svg+xml" href="../../assets/icons/document.svg">
   <script src="../../theme.js"></script>
   <link rel="stylesheet" href="../../site.css">
-  <link rel="stylesheet" href="converter.css?v=20261001-images">
-  <script src="converter.js?v=20261001-images" type="module"></script>
+  <link rel="stylesheet" href="converter.css?v=20261001-layout">
+  <script src="converter.js?v=20261001-layout" type="module"></script>
 </head>
 <body id="top">
   <a class="skip-link" href="#main">跳到正文</a>
@@ -77,13 +77,23 @@
       <div id="empty-state" class="empty-state"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 6h17l8 8v27H12zM29 6v8h8M19 24h11M19 30h11"/></svg><p>文档的下一站，从这里开始。</p><span>选择上方的文件，转换完成后即可预览和下载。</span></div>
       <div class="panel-footnote"><span><i class="privacy-dot" aria-hidden="true"></i> 仅在当前浏览器中处理</span><span>刷新页面后，文件列表将清空</span></div>
     </section>
-    <details class="conversion-notes"><summary>关于转换效果 <span aria-hidden="true">＋</span></summary><div><p>PDF → Word：文字模式提取可编辑文字，复杂表格、图片和多栏排版可能简化；没有文字的扫描页会自动保留为图片。若需要保留原版式，请选择“页面图片”，该方式不支持直接编辑文字。</p><p>Word → PDF：支持 .docx 的文字、图片和基础表格，按 A4 重新排版；页眉页脚、分页及复杂样式可能变化。初版 PDF 以页面图像生成，文字暂不可选中。旧版 .doc 请先另存为 .docx。</p><p>图片 → PDF：支持 JPG、PNG、WebP；一次最多选择 12 张，按选择顺序合成一份 A4 PDF，每张一页，等比例居中、不裁切。透明背景转换为白色，过大的图片会缩小；每张图片最多 4,000 万像素。下方“转换方式”仅用于 PDF → Word。</p><p>单个文件最大 20 MB；列表最多 12 个任务；PDF 最多 60 页。转换后请预览确认。</p></div></details>
+    <details class="conversion-notes">
+      <summary>关于转换效果 <span aria-hidden="true">＋</span></summary>
+      <div>
+        <p>PDF → Word：文字模式提取可编辑文字，复杂表格、图片和多栏排版可能简化；没有文字的扫描页会自动保留为图片。若需要保留原版式，请选择“页面图片”，该方式不支持直接编辑文字。</p>
+        <p>一键排版：PDF 转换完成后，点击“一键排版”，尽量按原页面的尺寸、分页、文字位置、字号和颜色还原布局。普通文字保留为可编辑文本框，图片、图形和表格边框作为背景保留；表格不是可直接增删行列的 Word 表格。扫描页、旋转/竖排文字及部分特殊字体或效果，按整页图像保留并标明“不可编辑”。</p>
+        <p>排版完成后，可通过“排版预览”对照原 PDF，并用“下载排版”保存另一份 DOCX；原转换文件仍保留。预览为排版示意，字体替换及 Word 的渲染可能带来差异，最终以 Word 打开为准。</p>
+        <p>Word → PDF：支持 .docx 的文字、图片和基础表格，按 A4 重新排版；页眉页脚、分页及复杂样式可能变化。初版 PDF 以页面图像生成，文字暂不可选中。旧版 .doc 请先另存为 .docx。</p>
+        <p>图片 → PDF：支持 JPG、PNG、WebP；一次最多选择 12 张，按选择顺序合成一份 A4 PDF，每张一页，等比例居中、不裁切。透明背景转换为白色，过大的图片会缩小；每张图片最多 4,000 万像素。下方“转换方式”仅用于 PDF → Word。</p>
+        <p>单个文件最大 20 MB；列表最多 12 个任务；PDF 最多 60 页。不支持 OCR；PDF 和排版结果预览前 5 页，完整文件可下载。页面超过 Word 支持的 22 英寸边长等情况无法排版，原转换文件仍可下载。转换后请预览确认。</p>
+      </div>
+    </details>
     <noscript><p class="announcement">请启用 JavaScript 后使用转换工具。</p></noscript>
   </main>
   <footer class="converter-footer converter-shell"><span>Stray's Tools</span><span>让小工具，解决小问题。</span><a href="../index.html">更多工具 <span aria-hidden="true">↗</span></a></footer>
   <dialog id="preview-dialog" class="preview-dialog" aria-labelledby="preview-title">
     <div class="preview-header"><h2 id="preview-title">文件预览</h2><button id="close-preview" type="button" aria-label="关闭预览">×</button></div>
-    <div class="preview-toolbar"><div class="preview-tabs" role="group" aria-label="选择预览版本"><button id="original-tab" type="button" aria-pressed="true">原文件</button><button id="result-tab" type="button" aria-pressed="false">转换结果</button></div><span id="preview-caption"></span></div>
+    <div class="preview-toolbar"><div class="preview-tabs" role="group" aria-label="选择预览版本"><button id="original-tab" type="button" aria-pressed="true">原文件</button><button id="result-tab" type="button" aria-pressed="false">转换结果</button><button id="layout-tab" type="button" aria-pressed="false" hidden>排版结果</button></div><span id="preview-caption"></span></div>
     <div id="preview-content" class="preview-content" aria-busy="false"></div>
   </dialog>
 </body>
