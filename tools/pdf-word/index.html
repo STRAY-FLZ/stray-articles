@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Stray 的 PDF 与 Word 互转工具。在浏览器本地转换、预览并下载文档。">
+  <title>PDF ⇄ Word · Stray</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/document.svg">
+  <script src="../../theme.js"></script>
+  <link rel="stylesheet" href="../../site.css">
+  <link rel="stylesheet" href="converter.css">
+  <script src="converter.js" type="module"></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../index.html" aria-label="Stray，返回个人博客">Stray<span class="brand-section"> / 小工具</span></a>
+      <div class="header-actions">
+        <a class="blog-link" href="../../index.html">返回个人博客 <span aria-hidden="true">↗</span></a>
+        <div class="theme-control">
+          <button class="theme-toggle" type="button" role="switch" aria-label="夜间模式" aria-checked="false" data-theme-toggle>
+            <span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__thumb">
+              <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+              <span class="theme-icon theme-icon--moon"></span>
+            </span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="converter-shell">
+    <section class="converter-hero" aria-labelledby="converter-title">
+      <span class="eyebrow">STRAY TOOLS / 001</span>
+      <h1 id="converter-title"><span>PDF</span><svg class="exchange" aria-label="与" viewBox="0 0 96 58" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 16h76m-13-12 13 12-13 12M87 42H11m13-12L11 42l13 12"/></svg><span>Word</span></h1>
+      <p class="hero-subtitle">换一种格式，让文档继续流转。</p>
+      <div class="hero-meta"><span><i class="privacy-dot" aria-hidden="true"></i> 本地处理 · 文件不上传</span><span class="version-tag">初版 v0.1</span></div>
+    </section>
+
+    <section class="upload-grid" aria-label="选择需要转换的文件">
+      <div class="upload-card" data-drop="pdf">
+        <label class="upload-target" for="pdf-input">
+          <span class="upload-topline"><span class="direction-label">PDF TO WORD</span><span class="direction-arrow" aria-hidden="true">↗</span></span>
+          <svg class="document-icon document-icon--pdf" viewBox="0 0 52 64" fill="none" aria-hidden="true"><path d="M8 2h25l13 13v45H8z" stroke="currentColor" stroke-width="1.5"/><path d="M33 2v13h13M17 26h20M17 32h14" stroke="currentColor" stroke-width="1.5"/><text x="16" y="49" fill="currentColor" font-size="12" font-family="Arial" font-weight="700">PDF</text></svg>
+          <h2>上传 PDF</h2>
+          <p>将阅读文档，变为可编辑的 Word。</p>
+          <span class="upload-cta">选择文件 <span aria-hidden="true">＋</span></span>
+          <span class="upload-hint">也可以拖拽到这里 · .pdf · 最大 20 MB</span>
+        </label>
+        <input class="file-input" id="pdf-input" type="file" accept=".pdf,application/pdf" multiple>
+        <div class="card-option"><label for="pdf-mode">转换方式</label><select id="pdf-mode"><option value="text">提取可编辑文字</option><option value="image">保留版式（页面图片）</option></select></div>
+      </div>
+      <div class="upload-card" data-drop="word">
+        <label class="upload-target" for="word-input">
+          <span class="upload-topline"><span class="direction-label">WORD TO PDF</span><span class="direction-arrow" aria-hidden="true">↗</span></span>
+          <svg class="document-icon document-icon--word" viewBox="0 0 52 64" fill="none" aria-hidden="true"><path d="M8 2h25l13 13v45H8z" stroke="currentColor" stroke-width="1.5"/><path d="M33 2v13h13M17 26h20M17 32h14" stroke="currentColor" stroke-width="1.5"/><text x="17" y="51" fill="currentColor" font-size="20" font-family="Georgia" font-weight="700">W</text></svg>
+          <h2>上传 Word</h2>
+          <p>将编辑文档，整理为便于分享的 PDF。</p>
+          <span class="upload-cta">选择文件 <span aria-hidden="true">＋</span></span>
+          <span class="upload-hint">也可以拖拽到这里 · .docx · 最大 20 MB</span>
+        </label>
+        <input class="file-input" id="word-input" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
+        <div class="card-option"><span>输出格式</span><span>A4 页面 <span class="option-divider">/</span> .pdf</span></div>
+      </div>
+    </section>
+
+    <p id="announcement" class="announcement" role="status" aria-live="polite"></p>
+    <section class="file-panel" aria-labelledby="files-title">
+      <div class="panel-heading"><div class="panel-title"><h2 id="files-title">文件列表</h2><span id="file-count" class="file-count">0</span></div><div class="panel-actions"><button id="sample-button" type="button">试用示例 <span aria-hidden="true">↗</span></button><button id="clear-button" type="button" disabled>清空列表</button></div></div>
+      <div class="list-columns" aria-hidden="true"><span>文件 / 转换状态</span><span>预览与下载</span></div>
+      <div id="file-list"></div>
+      <div id="empty-state" class="empty-state"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 6h17l8 8v27H12zM29 6v8h8M19 24h11M19 30h11"/></svg><p>文档的下一站，从这里开始。</p><span>选择上方的文件，转换完成后即可预览和下载。</span></div>
+      <div class="panel-footnote"><span><i class="privacy-dot" aria-hidden="true"></i> 仅在当前浏览器中处理</span><span>刷新页面后，文件列表将清空</span></div>
+    </section>
+    <details class="conversion-notes"><summary>关于转换效果 <span aria-hidden="true">＋</span></summary><div><p>PDF → Word：文字模式提取可编辑文字，复杂表格、图片和多栏排版可能简化；没有文字的扫描页会自动保留为图片。若需要保留原版式，请选择“页面图片”，该方式不支持直接编辑文字。</p><p>Word → PDF：支持 .docx 的文字、图片和基础表格，按 A4 重新排版；页眉页脚、分页及复杂样式可能变化。初版 PDF 以页面图像生成，文字暂不可选中。旧版 .doc 请先另存为 .docx。</p><p>单个文件最大 20 MB；列表最多 12 个文件；PDF 最多 60 页。转换后请预览确认。</p></div></details>
+    <noscript><p class="announcement">请启用 JavaScript 后使用转换工具。</p></noscript>
+  </main>
+  <footer class="converter-footer converter-shell"><span>Stray's Tools</span><span>让小工具，解决小问题。</span><a href="../index.html">更多工具 <span aria-hidden="true">↗</span></a></footer>
+  <dialog id="preview-dialog" class="preview-dialog" aria-labelledby="preview-title">
+    <div class="preview-header"><h2 id="preview-title">文件预览</h2><button id="close-preview" type="button" aria-label="关闭预览">×</button></div>
+    <div class="preview-toolbar"><div class="preview-tabs" role="group" aria-label="选择预览版本"><button id="original-tab" type="button" aria-pressed="true">原文件</button><button id="result-tab" type="button" aria-pressed="false">转换结果</button></div><span id="preview-caption"></span></div>
+    <div id="preview-content" class="preview-content" aria-busy="false"></div>
+  </dialog>
+</body>
+</html>
