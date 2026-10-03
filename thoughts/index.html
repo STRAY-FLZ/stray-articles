@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Stray 的学习笔记与小工具空间。">
-  <title>工具 · Stray</title>
+  <meta name="description" content="记录个人生活中的感想和经历，把值得记住的时刻留在这里。">
+  <title>随想 · Stray</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%229%22%20fill%3D%22%2317233a%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20fill%3D%22%23f7f8fb%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2241%22%20font-weight%3D%22bold%22%3ES%3C%2Ftext%3E%3C%2Fsvg%3E">
   <script src="../theme.js"></script>
   <link rel="stylesheet" href="../site.css?v=20261003-thoughts">
@@ -19,9 +19,9 @@
       <div class="header-actions">
         <nav class="site-nav" aria-label="主导航"><a href="../index.html">首页</a>
         <a href="../inspiration/index.html">灵感</a>
-        <a href="../thoughts/index.html">随想</a>
+        <a href="../thoughts/index.html" aria-current="page">随想</a>
         <a href="../travel/index.html">旅途</a>
-        <a href="../tools/index.html" aria-current="page">工具</a>
+        <a href="../tools/index.html">工具</a>
         <a href="../about/index.html">关于</a></nav>
         <div class="theme-control">
           <button class="theme-toggle" type="button" role="switch" aria-label="夜间模式" aria-checked="false" title="开启夜间模式" data-theme-toggle>
@@ -35,17 +35,16 @@
     </div>
   </header>
   <main id="main">
-  <section class="shell category-hero" aria-labelledby="tools-title">
-    <div><span class="eyebrow">TOOLS / 工具</span><h1 id="tools-title">工具</h1><p>这里收录我的学习笔记，以及在学习和生活中用到的小工具。</p><span class="category-count">1 个工具 · 陆续更新</span></div>
-  </section>
-  <section class="shell empty-note tools-intro" aria-labelledby="tools-next-title"><span class="eyebrow">TOOLS &amp; NOTES / 工具与笔记</span><h2 id="tools-next-title">记录所学，也解决小问题。</h2><p>笔记和小工具将在整理完成后陆续加入。先从文档格式互转开始。</p></section>
-  <section class="shell tool-section" aria-label="可用工具">
-    <a class="tool-entry" href="pdf-word/index.html" aria-labelledby="pdf-word-title" aria-describedby="pdf-word-description">
-      <span class="tool-entry__number" aria-hidden="true">01</span>
-      <div><h2 id="pdf-word-title">PDF 与 Word 互转</h2><p id="pdf-word-description">在浏览器中转换 PDF 与 DOCX，预览结果并下载。</p><p class="tool-entry__meta">本地处理 · 文件不上传</p></div>
-      <span class="tool-entry__cta">打开工具 <span aria-hidden="true">↗</span></span>
-    </a>
-  </section></main>
+  <div class="thoughts-reading">
+    <section class="shell thoughts-hero" aria-labelledby="thoughts-title">
+      <span class="eyebrow">THOUGHTS / 随想</span><h1 id="thoughts-title">随想</h1><p>记录个人生活中的感想和经历，把值得记住的时刻留在这里。</p><span class="category-count">1 篇文章</span>
+    </section>
+    <section class="shell story-section" aria-label="随想文章列表"><div class="story-list"><article class="story-row">
+  <span class="story-row__number">01</span>
+  <div><h2><a href="../articles/iag2-your-finale-my-beginning/index.html">【IAG2.0】你的收官，我的开始</a></h2><p>从场馆外的合唱，到人生中的第一场演唱会，记录一场雨中的相遇。</p><p class="thought-date"><time datetime="2026-10-02">2026.10.02</time></p></div>
+  <a class="story-row__arrow" href="../articles/iag2-your-finale-my-beginning/index.html" aria-label="阅读【IAG2.0】你的收官，我的开始">↗</a>
+</article></div></section>
+  </div></main>
   <footer class="site-footer">
     <div class="shell footer-inner"><span>Stray's Blog</span><span>记录生活、影像与世界</span><a href="../index.html">回到首页 ↑</a></div>
   </footer>

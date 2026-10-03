@@ -1,16 +1,24 @@
 # Stray 文字档案
 
-个人文章网站的 GitHub Pages 发布版本。导航为“首页、灵感、旅途、工具、关于”；四篇文章统一排列在“灵感”，不再细分主题。
+个人文章网站的 GitHub Pages 发布版本。导航为“首页、灵感、随想、旅途、工具、关于”；阅读与写作排列在“灵感”，个人生活中的感想和经历收录在“随想”。
 
 ## 页面
 
 - `index.html`：首页和栏目入口
-- `inspiration/`：所有文章的统一列表
+- `inspiration/`：阅读、观察与写作的文章列表
+- `thoughts/`：个人生活中的感想和经历，目前收录《【IAG2.0】你的收官，我的开始》
 - `topics/people/`、`topics/visual/`、`topics/world/`：旧栏目链接，自动跳转到“灵感”
 - `travel/`：旅途栏目，保留原有网址
-- `tools/`：笔记和小工具栏目，目前为待更新页面
+- `tools/`：笔记和小工具栏目，含文档格式互转工具
+- `tools/pdf-word/`：PDF 与 Word 互转、图片制作 PDF、一键排版和预览。单文件上限 150 MB，文件在浏览器本地处理。功能、限制和本地启动方式见 [使用说明](tools/pdf-word/README.md)。
 - `about/`：关于网站
-- `articles/`：四篇文章的正文
+- `articles/`：五篇文章的正文，其中四篇灵感、一篇随想
+
+## 随想的字体与字号
+
+在 `site.css` 最后的 `.thoughts-reading` 样式中设置字体；标题为 `28pt`（28 磅），正文为 `14pt`（14 磅），电脑和手机使用同一字号。首选“华文中宋 / STZhongsong”，访客未安装该字体时依次使用备用宋体。网站不附带或分发商业字体文件。
+
+新增文章的正文路径是 `articles/iag2-your-finale-my-beginning/index.html`，日期沿用原文的 2026 年 10 月 2 日。
 
 ## 日间与夜间模式
 

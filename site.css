@@ -253,7 +253,7 @@ html[data-theme="dark"] .article-head, html[data-theme="dark"] .article-end { bo
   .header-inner { min-height: 87px; }
   .brand { font-size: 1.32rem; }
   .header-actions { gap: .75rem; }
-  .site-nav { gap: clamp(.55rem, 2.8vw, 1.25rem); }
+  .site-nav { gap: clamp(.4rem, 2vw, 1.25rem); }
   .site-nav a { font-size: .85rem; }
   .theme-control { gap: .65rem; }
   .home-hero, .category-hero, .about-hero { grid-template-columns: 1fr; }
@@ -301,4 +301,28 @@ html[data-theme="dark"] .article-head, html[data-theme="dark"] .article-end { bo
   html { scroll-behavior: auto; }
   .topic-row { transition: none; }
   html[data-theme-ready] body, html[data-theme-ready] .site-header, html[data-theme-ready] .visual-plate, html[data-theme-ready] .theme-toggle__track, .theme-toggle__thumb { transition: none; }
+}
+
+/* Thoughts: Word-style point sizes, scoped to this new reading section.
+   Use the locally installed font; do not redistribute a licensed font file. */
+.thoughts-reading { --serif: "华文中宋", "STZhongsong", "Songti SC", "Noto Serif CJK SC", "SimSun", serif; font-family: var(--serif); font-size: 14pt; }
+.thoughts-reading .eyebrow, .thoughts-reading .category-count,
+.thoughts-reading .story-row__number, .thoughts-reading .breadcrumb,
+.thoughts-reading .article-side, .thoughts-reading .article-side p,
+.thoughts-reading .article-side a, .thoughts-reading .article-end { font-family: var(--serif); }
+.thoughts-hero { padding-block: 4.5rem 3.5rem; }
+.thoughts-reading .thoughts-hero h1,
+.thoughts-reading .story-row h2, .thoughts-reading .article-head h1,
+.thoughts-reading .prose h2, .thoughts-reading .prose h3 { font-family: var(--serif); font-size: 28pt; font-weight: 400; letter-spacing: 0; line-height: 1.5; }
+.thoughts-reading .thoughts-hero h1 { margin: .8rem 0 1rem; }
+.thoughts-reading .thoughts-hero > p { max-width: 42rem; margin: 0; color: var(--muted); line-height: 1.9; }
+.thoughts-reading .story-row p, .thoughts-reading .article-deck,
+.thoughts-reading .prose, .thoughts-reading .prose .article-note,
+.thoughts-reading .thought-date { font-family: var(--serif); font-size: 14pt; }
+.thoughts-reading .prose { line-height: 1.95; }
+.thoughts-reading .thought-date { margin: 1rem 0 0; color: var(--muted); line-height: 1.7; }
+@media (max-width: 700px) {
+  .thoughts-hero { padding-block: 3rem 2.5rem; }
+  .thoughts-reading .story-row { grid-template-columns: minmax(0, 1fr) 1.2rem; }
+  .thoughts-reading .story-row__number { grid-column: 1 / -1; }
 }
