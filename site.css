@@ -214,14 +214,17 @@ html[data-theme="dark"] .hero-portrait {
 .article-deck { max-width: 42rem; margin: 1.4rem 0 0; color: var(--muted); font-size: 1.08rem; line-height: 1.85; }
 .article-side { position: sticky; top: calc(var(--header-clearance) + 1.5rem); align-self: start; min-width: 0; max-height: calc(100dvh - var(--header-clearance) - 3rem); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: var(--line) transparent; font-family: "华文中宋", "STZhongsong", "Songti SC", "Noto Serif CJK SC", "SimSun", serif; }
 .reading-directory__toggle { display: none; }
+.reading-panel { overflow: hidden; }
+.reading-content { display: flow-root; }
 .reading-group { padding-block: 1.4rem; border-bottom: 1px solid var(--line); }
 .reading-group:first-child { padding-top: .2rem; }
 .reading-group:last-child { border-bottom: 0; }
 .reading-group__title, .reading-directory__toggle { list-style: none; cursor: pointer; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink); font-size: 1.12rem; font-weight: 700; line-height: 1.6; }
 .reading-group__title { display: flex; padding-block: .25rem; }
 .reading-group__title::-webkit-details-marker, .reading-directory__toggle::-webkit-details-marker { display: none; }
-.reading-chevron { flex: 0 0 auto; width: .5rem; height: .5rem; margin-right: .35rem; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); transition: transform .18s ease; }
-.reading-group[open] > summary .reading-chevron, .reading-directory[open] > summary .reading-chevron { transform: rotate(45deg); }
+.reading-chevron { flex: 0 0 auto; width: .5rem; height: .5rem; margin-right: .35rem; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); transition: transform .8s cubic-bezier(0.4, 0, 0.2, 1); }
+.reading-group:not([data-expanded])[open] > summary .reading-chevron, .reading-directory:not([data-expanded])[open] > summary .reading-chevron,
+.reading-group[data-expanded="true"] > summary .reading-chevron, .reading-directory[data-expanded="true"] > summary .reading-chevron { transform: rotate(45deg); }
 .reading-group__list { list-style: none; margin: .65rem 0 0; padding: 0; }
 .reading-group__list li + li { margin-top: .25rem; }
 .reading-group__list a { display: block; padding: .5rem .4rem .5rem .7rem; border-left: 2px solid transparent; color: var(--muted); font-size: 1.04rem; font-weight: 400; line-height: 1.8; overflow-wrap: anywhere; text-decoration: none; }
