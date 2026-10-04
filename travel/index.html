@@ -8,8 +8,9 @@
   <title>旅途 · Stray</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%229%22%20fill%3D%22%2317233a%22%2F%3E%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20fill%3D%22%23f7f8fb%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2241%22%20font-weight%3D%22bold%22%3ES%3C%2Ftext%3E%3C%2Fsvg%3E">
   <script src="../theme.js"></script>
-  <link rel="stylesheet" href="../site.css?v=20261003-reading-fonts">
+  <link rel="stylesheet" href="../site.css?v=20261004-reading-directory">
   <link rel="stylesheet" href="../art.css">
+  <script src="../reading-nav.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -35,17 +36,29 @@
     </div>
   </header>
   <main id="main">
-  <section class="shell category-hero category-hero--travel" aria-labelledby="travel-title">
+  <div class="shell collection-layout">
+   <div class="collection-main">
+    <section class="category-hero category-hero--travel" aria-labelledby="travel-title">
     <div><span class="eyebrow">TRAVEL / 沿途记录</span><h1 id="travel-title">旅途</h1><p>将来，这里会收录旅途中的文字、照片，以及途中值得记住的人和地方。</p><span class="category-count">内容待续</span></div>
-    <div class="visual-plate visual-plate--travel" role="img" aria-label="旅途栏目美术">
-  <span class="visual-ring" aria-hidden="true"></span>
-  <span class="visual-glyph" aria-hidden="true">S</span>
-  <span class="visual-line visual-line--one" aria-hidden="true"></span>
-  <span class="visual-line visual-line--two" aria-hidden="true"></span>
-  <span class="visual-label">旅途栏目美术 <span>STRAY / VISUALS</span></span>
-</div>
-  </section>
-  <section class="shell empty-note"><span class="eyebrow">TO BE CONTINUED</span><h2>下一段旅程，从这里开始。</h2><p>目前还没有放入旅途记录。未来的照片与记录将只在这个栏目出现，不与文章混排。</p><a class="plain-link" href="../index.html">回到首页 →</a></section></main>
+    </section>
+    <section class="empty-note"><span class="eyebrow">TO BE CONTINUED</span><h2>下一段旅程，从这里开始。</h2><p>目前还没有放入旅途记录。未来的照片与记录将只在这个栏目出现，不与文章混排。</p><a class="plain-link" href="../index.html">回到首页 →</a></section>
+   </div>
+   <aside class="article-side" aria-label="选文目录">
+      <details class="reading-directory" open>
+        <summary class="reading-directory__toggle">选择文章<span class="reading-chevron" aria-hidden="true"></span></summary>
+        <nav class="reading-directory__nav" aria-label="文章目录"><details class="reading-group" data-section="inspiration" open>
+          <summary class="reading-group__title">灵感<span class="reading-chevron" aria-hidden="true"></span></summary>
+          <ul class="reading-group__list"><li><a href="../articles/long-night/index.html">长夜将尽：3代人的寻亲故事</a></li><li><a href="../articles/outside/index.html">门外：美国足球不确定的未来</a></li><li><a href="../articles/godmaking/index.html">造神之路</a></li><li><a href="../articles/short-drama-ai/index.html">短剧AI化，人该何去何从？</a></li></ul>
+        </details><details class="reading-group" data-section="thoughts" open>
+          <summary class="reading-group__title">随想<span class="reading-chevron" aria-hidden="true"></span></summary>
+          <ul class="reading-group__list"><li><a href="../articles/iag2-your-finale-my-beginning/index.html">【IAG2.0】你的收官，我的开始</a></li></ul>
+        </details><details class="reading-group" data-section="travel" open>
+          <summary class="reading-group__title">旅途<span class="reading-chevron" aria-hidden="true"></span></summary>
+          <p class="reading-group__empty">暂无文章，敬请期待。</p>
+        </details></nav>
+      </details>
+    </aside>
+  </div></main>
   <footer class="site-footer">
     <div class="shell footer-inner"><span>Stray's Blog</span><span>记录生活、影像与世界</span><a href="../index.html">回到首页 ↑</a></div>
   </footer>
