@@ -156,7 +156,10 @@ class Engine:
             if directory_bytes(self.settings.data) > self.settings.disk_limit - self.settings.max_bytes:
                 raise ValueError("服务存储空间暂时不足，请稍后重试。")
             identifier = uuid.uuid4().hex
-            job = {"id": identifier, "title": analysis["title"], "platform_label": analysis["platform_label"], "mode": mode, "quality_label": "最佳可用音轨" if mode == "audio" else quality["label"], "state": "queued", "progress": None, "error": "", "files": [], "expires": time.time() + self.settings.retention + self.settings.job_timeout, "spec": {"operation": "download", "url": analysis["url"], "quality": quality, "audio_id": analysis["audio_id"], "mode": mode, "audio_format": audio_format}}
+            # Include the worst bounded queue wait. Result retention starts again
+            # after completion, so a waiting job never disappears prematurely.
+            expires = time.time() + self.settings.retention + self.settings.job_timeout * (self.settings.queue_limit // self.settings.workers + 1)
+            job = {"id": identifier, "title": analysis["title"], "platform_label": analysis["platform_label"], "mode": mode, "quality_label": "最佳可用音轨" if mode == "audio" else quality["label"], "state": "queued", "progress": None, "error": "", "files": [], "expires": expires, "spec": {"operation": "download", "url": analysis["url"], "quality": quality, "audio_id": analysis["audio_id"], "mode": mode, "audio_format": audio_format}}
             self.store.put("job", job, owner, job["expires"])
             self.pool.submit(self.run_job, identifier, owner)
             return job

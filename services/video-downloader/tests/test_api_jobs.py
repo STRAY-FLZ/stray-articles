@@ -133,3 +133,20 @@ def test_cancelled_jobs_do_not_run(tmp_path, monkeypatch):
     engine.run_job(identifier, OWNER)
     engine.close()
     store.close()
+
+
+def test_queued_job_stays_visible_during_long_wait(tmp_path, monkeypatch):
+    store = Store(tmp_path)
+    engine = Engine(Settings(data=tmp_path), store)
+    # Hold all workers to simulate a full queue of slow preceding downloads.
+    monkeypatch.setattr(engine.pool, "submit", lambda *_: None)
+    source = analysis() | {"url": "https://www.bilibili.com/video/BV123"}
+    for visitor in range(12):
+        identity = str(visitor)
+        last = engine.submit(source, identity, source["qualities"][0], "video", "original")
+    later = time.time() + 90 * 60
+    with monkeypatch.context() as clock:
+        clock.setattr(time, "time", lambda: later)
+        assert store.get("job", last["id"], identity)["state"] == "queued"
+    engine.close()
+    store.close()
