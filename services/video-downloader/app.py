@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import hmac
+import os
 import re
 import secrets
 import shutil
@@ -138,7 +139,11 @@ def create_app(settings=None):
     @application.get("/v1/health")
     def health():
         ready = bool(shutil.which(settings.ffmpeg) and shutil.which(settings.ffprobe))
-        return {"status": "ready" if ready else "maintenance", "retention_minutes": settings.retention // 60, "max_bytes": settings.max_bytes, "platforms": ["bilibili", "douyin", "xiaohongshu"]}
+        result = {"status": "ready" if ready else "maintenance", "retention_minutes": settings.retention // 60, "max_bytes": settings.max_bytes, "platforms": ["bilibili", "douyin", "xiaohongshu"]}
+        commit = os.environ.get("RENDER_GIT_COMMIT", "")
+        if re.fullmatch(r"[a-f0-9]{40}", commit):
+            result["build"] = commit
+        return result
 
     @application.post("/v1/analyze")
     def analyze(body: AnalyzeBody, request: Request, identity=Depends(owner)):

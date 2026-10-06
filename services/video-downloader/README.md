@@ -53,6 +53,21 @@ Compose 的固定内网代理 IP 用于可信 `X-Real-IP`，避免将访问者�
 
 默认解析器版本固定为 `yt-dlp 2026.8.19`。源站变化导致失败时，在 `requirements.txt` 选择并验证新版；不要仅凭仓库支持列表宣布实链可用。
 
+### Render 配置源站验证信息
+
+本项目支持读取 `/etc/secrets/xiaohongshu.txt` 或 `/etc/secrets/douyin.txt`，但不预置验证信息。优先使用你自己获得的未登录会话，只用于已获许可的公开视频。上游也记录过小红书要求 `web_session` 的情况：[讨论记录](https://github.com/yt-dlp/yt-dlp/issues/15467)。不同部署网络可能仍被限制，配置 Cookie 后需要实链验证，不能保证一定解决。
+
+1. 在浏览器的隐私窗口打开完整视频分享链接。若平台要求交互验证，在浏览器中正常完成。
+2. 从开发者工具的 Application / 应用程序 → Cookies 中查看该平台的会话值。小红书若只有 `web_session` 即可工作，可使用下列 Netscape 格式；各列用制表符分隔。需要完整 Cookie 时使用你信任的方式导出该平台的 Netscape Cookie 文件。
+
+   ```text
+   # Netscape HTTP Cookie File
+   .xiaohongshu.com	TRUE	/	TRUE	0	web_session	在控制台填写你自己的会话值
+   ```
+
+3. 在 Render 服务的 Environment → Secret Files 新建 `xiaohongshu.txt`（或 `douyin.txt`），填写文件内容，保存并部署。默认 `VIDEO_COOKIE_DIR=/etc/secrets` 已设置。
+4. 使用同一链接重新验收解析及实际文件下载。不要把 Cookie 发到聊天、公开仓库、网站页面或控制台日志；需要替换时继续在 Secret Files 更新。
+
 ## 本地验证
 
 Python 3.12、FFmpeg 与 FFprobe 可用时：
@@ -72,13 +87,15 @@ VIDEO_DATA_DIR=./data VIDEO_ALLOWED_ORIGINS=http://127.0.0.1:4173 \
 
 2026-10-06 Render 实链结果：健康检查、网站来源的 CORS 预检和带会话令牌请求通过。B站同一样例仍有四档清晰度；选择 360P、音画分离和 MP3 后，处理约 108 秒完成，实际签名链接下载两个文件。FFprobe 确认 24,511,111 字节的 H.264 文件只有画面，13,300,734 字节的 MP3 文件只有音频。抖音样例仍要求验证信息；小红书完整分享样例仍未返回格式，后两者尚未完成成功下载验收。免费实例性能较低，解析成功后仍需等待媒体处理。
 
+随后通过正式网站选择 360P、完整视频并提交，刷新后任务恢复；点击实际下载入口取得 38,026,158 字节的 MP4，FFprobe 确认同时有 640 × 360 的 H.264 画面和 AAC 音轨。用户提供的另一条有效小红书视频链接，在本地使用同样处理参数能取得 720P（源文件约 6.2 MB），并实际完成无声 H.264 视频与 MP3 音轨的导出，两个文件通过 FFprobe 检查。但 Render 上的 `discovery/item` 和 `explore` 两种官方入口均未返回格式。因此不能归因于分享参数缺失，也不能宣布小红书已在云端可用；下一步需要验证源站会话或部署网络。具体阻断因素尚未确定。
+
 默认限制：单视频 30 分钟；单输出 512 MB；两工作进程；最多 12 个在途任务、每浏览器 2 个；全服务每日最多 100 次通过参数验证的下载提交；结果完成后暂存 60 分钟；签名下载链接有效期最多 15 分钟；临时数据总量 4 GB。超时、超量、取消和失败都会清理工作目录。前端定期更新文件链接与过期状态。
 
 ## API
 
 浏览器生成 32 字节随机会话令牌，用 `Authorization: Bearer <64位hex>` 访问任务接口；服务保存令牌的哈希。该令牌只是匿名任务归属，不是站点管理员账号。CORS 限定网站来源，配合 IP / 会话 / 全局限流；CORS 不是阻止所有第三方调用的认证机制。
 
-- `GET /v1/health`：处理程序是否就绪、保留时间、文件限制。
+- `GET /v1/health`：处理程序是否就绪、保留时间、文件限制；Render 上额外提供公开的部署提交号 `build`，用于核对实际运行版本。
 - `POST /v1/analyze`：`{"url":"视频分享链接"}`，返回解析 ID、标题、实际可用档位。
 - `POST /v1/jobs`：`{"analysis_id":"...","quality_id":"q1","mode":"split","audio_format":"original"}`。
 - `GET /v1/jobs/{id}`：状态与签名文件链接，不返回源站媒体 URL、Cookie 或内部路径。

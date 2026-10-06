@@ -56,7 +56,7 @@ def friendly_error(error, platform=""):
         return "视频可能已删除、设为私密或不在当前地区开放。"
     if "format" in message:
         if platform == "xiaohongshu":
-            return "源站没有返回可用视频，请使用完整分享链接，或确认此笔记包含视频。"
+            return "小红书暂未向下载服务返回视频数据，可能需要更新源站验证信息。请稍后重试。"
         return "当前清晰度无法取得，请重新解析并选择其他档位。"
     return "暂时无法提取此视频，请检查分享链接是否完整，或稍后重试。"
 
