@@ -1,0 +1,30 @@
+# Optional short-video preview deployment. Free instances can restart and lose
+# their results. For regular public use choose a paid instance plus a disk, or VPS.
+services:
+  - type: web
+    name: stray-video-api
+    region: singapore
+    runtime: docker
+    plan: free
+    dockerfilePath: ./services/video-downloader/Dockerfile
+    dockerContext: ./services/video-downloader
+    healthCheckPath: /v1/health
+    buildFilter:
+      paths:
+        - services/video-downloader/**
+        - render.yaml
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: VIDEO_ALLOWED_ORIGINS
+        value: https://stray-flz.github.io
+      - key: VIDEO_WORKERS
+        value: "1"
+      - key: VIDEO_MAX_BYTES
+        value: "134217728"
+      - key: VIDEO_DISK_LIMIT
+        value: "536870912"
+      - key: VIDEO_RETENTION_MINUTES
+        value: "15"
+      - key: VIDEO_COOKIE_DIR
+        value: /etc/secrets

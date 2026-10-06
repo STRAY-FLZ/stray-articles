@@ -1,0 +1,41 @@
+name: Video tool checks
+on:
+  push:
+    paths:
+      - 'tools/video/**'
+      - 'services/video-downloader/**'
+      - 'render.yaml'
+      - '.github/workflows/video-checks.yml'
+  pull_request:
+    paths:
+      - 'tools/video/**'
+      - 'services/video-downloader/**'
+      - 'render.yaml'
+      - '.github/workflows/video-checks.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: pip install -r services/video-downloader/requirements-dev.txt
+      - run: pytest services/video-downloader/tests -q
+      - run: node --check tools/video/video.js
+      - run: docker build -t stray-video-check services/video-downloader
+      - name: Check container health
+        shell: bash
+        run: |
+          docker run -d --name video-check -p 127.0.0.1:8080:8080 stray-video-check
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:8080/v1/health | python -c "import json,sys; assert json.load(sys.stdin)['status']=='ready'"; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs video-check
+          exit 1

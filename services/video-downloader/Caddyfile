@@ -1,0 +1,13 @@
+{$VIDEO_API_DOMAIN} {
+    request_body {
+        max_size 8KB
+    }
+    reverse_proxy api:8080 {
+        # The API is reachable only on the internal Docker network.
+        header_up X-Real-IP {remote_host}
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        Referrer-Policy "no-referrer"
+    }
+}

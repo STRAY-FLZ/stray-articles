@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="选择视频清晰度，下载完整视频或单独导出音轨。支持哔哩哔哩、抖音和小红书的单条视频分享链接。">
+  <title>视频下载 · Stray</title>
+  <link rel="icon" type="image/svg+xml" href="video.svg">
+  <script src="../../theme.js"></script>
+  <link rel="stylesheet" href="../../site.css?v=20261004-directory-animation">
+  <link rel="stylesheet" href="video.css?v=20261006">
+  <script src="config.js?v=20261006"></script>
+  <script type="module" src="video.js?v=20261006"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../../index.html" aria-label="Stray，返回首页">Stray <span class="brand-section">/ 小工具</span></a>
+      <div class="header-actions">
+        <a class="blog-link" href="../index.html">返回工具 <span aria-hidden="true">↗</span></a>
+        <div class="theme-control">
+          <button class="theme-toggle" type="button" role="switch" aria-label="夜间模式" aria-checked="false" title="开启夜间模式" data-theme-toggle>
+            <span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__thumb">
+              <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+              <span class="theme-icon theme-icon--moon"></span>
+            </span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="video-shell">
+    <section class="video-hero" aria-labelledby="page-title">
+      <span class="eyebrow">STRAY TOOLS / 002</span>
+      <h1 id="page-title">视频，随心保存。</h1>
+      <p class="hero-subtitle">粘贴一个链接，选择清晰度。<br class="mobile-break">画面与声音，也可以各自留下。</p>
+      <ul class="platform-list" aria-label="支持的平台"><li>哔哩哔哩</li><li>抖音</li><li>小红书</li></ul>
+    </section>
+
+    <section class="download-workspace" aria-labelledby="link-heading">
+      <div class="section-topline"><span class="eyebrow">01 / 视频链接</span><span class="service-state" id="service-state" role="status">正在检查服务</span></div>
+      <h2 id="link-heading" class="sr-only">输入视频分享链接</h2>
+      <form id="link-form" novalidate>
+        <label for="video-link">视频分享链接</label>
+        <div class="link-input-row">
+          <textarea id="video-link" name="url" rows="2" maxlength="4096" placeholder="粘贴视频网页链接，或包含链接的分享文字…" aria-describedby="link-hint feedback" required></textarea>
+          <button id="analyze-button" class="primary-button" type="submit">解析视频 <span aria-hidden="true">↗</span></button>
+        </div>
+        <p id="link-hint" class="field-hint">支持单条视频与短链接，暂不支持直播、合集或图文笔记。</p>
+      </form>
+      <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      <noscript><p class="feedback is-error">请开启浏览器的 JavaScript 后使用此工具。</p></noscript>
+
+      <section id="video-details" class="video-details" aria-labelledby="video-title" hidden>
+        <div class="video-summary"><span class="summary-mark" aria-hidden="true">▶</span><div><p id="video-source" class="summary-source"></p><h3 id="video-title"></h3><p id="video-meta" class="field-hint"></p></div></div>
+        <div class="options-heading"><span class="eyebrow">02 / 导出选择</span><button type="button" class="text-button" id="reset-button">更换链接</button></div>
+        <form id="download-form">
+          <fieldset class="output-options"><legend>保存方式</legend>
+            <label class="output-option"><input type="radio" name="mode" value="video" checked><span><strong>完整视频</strong><small>画面与声音保存在同一文件</small></span><span class="option-mark" aria-hidden="true"></span></label>
+            <label class="output-option"><input type="radio" name="mode" value="audio"><span><strong>仅音轨</strong><small>单独保存声音，适合稍后聆听</small></span><span class="option-mark" aria-hidden="true"></span></label>
+            <label class="output-option"><input type="radio" name="mode" value="split"><span><strong>音画分离</strong><small>导出无声视频和独立音频文件</small></span><span class="option-mark" aria-hidden="true"></span></label>
+          </fieldset>
+          <div class="select-options">
+            <div><label for="quality">视频清晰度</label><select id="quality" name="quality"></select><p id="quality-note" class="field-hint">按源视频实际可用清晰度列出，不放大画面。</p></div>
+            <div><label for="audio-format">音轨格式</label><select id="audio-format" name="audio-format" disabled><option value="original">原始音轨 · 保留原有音质</option><option value="mp3">MP3 · 便于播放</option></select><p id="audio-note" class="field-hint">完整视频保留原有音轨。</p></div>
+          </div>
+          <div class="export-row"><p id="export-hint">清晰度越高，处理时间与文件体积通常越大。</p><button id="download-button" type="submit" class="primary-button">开始提取 <span aria-hidden="true">↓</span></button></div>
+        </form>
+      </section>
+    </section>
+
+    <section class="task-panel" aria-labelledby="tasks-title">
+      <div class="tasks-heading"><div><span class="eyebrow">03 / 下载任务</span><h2 id="tasks-title">等待片刻，然后带走。</h2></div><span id="task-count" class="task-count">0 个任务</span></div>
+      <div id="task-empty" class="task-empty"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M24 8v23m-8-8 8 8 8-8M10 32v8h28v-8"/></svg><p>你的下载会出现在这里。</p><span>可以查看进度，分别下载视频与音轨。</span></div>
+      <ul id="task-list" class="task-list"></ul>
+      <div class="panel-footnote"><span>刷新页面后，可继续查看本浏览器的任务。</span><span id="retention-note">结果暂存 60 分钟</span></div>
+    </section>
+    <section class="usage-notes" aria-label="使用说明">
+      <details><summary>关于清晰度与音轨 <span aria-hidden="true">＋</span></summary><p>这里只提供源视频当前可取得的档位。部分视频只有一个清晰度，或需要在源站登录后才能观看。原始音轨直接保留已有音质；转换 MP3 不会提升音质。音画分离会输出两个文件，无声视频需要配合音频播放。</p></details>
+      <p>请用于你拥有或已获许可的视频。链接会发送至下载服务处理，工具不提供付费内容解锁。</p>
+    </section>
+    <footer class="video-footer"><span>Stray's Blog</span><span>留住画面，也留住声音。</span><a href="../index.html">回到工具 ↑</a></footer>
+  </main>
+</body>
+</html>

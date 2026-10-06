@@ -1,0 +1,52 @@
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      VIDEO_ALLOWED_ORIGINS: https://stray-flz.github.io
+      VIDEO_DATA_DIR: /data
+      VIDEO_COOKIE_DIR: /cookies
+      VIDEO_WORKERS: "2"
+      VIDEO_TRUSTED_PROXY: "172.28.0.2"
+      VIDEO_RETENTION_MINUTES: "60"
+    volumes:
+      - video-data:/data
+      - ./cookies:/cookies:ro
+    networks:
+      video:
+        ipv4_address: 172.28.0.3
+    mem_limit: 1536m
+    cpus: 1.8
+    pids_limit: 128
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+  gateway:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      VIDEO_API_DOMAIN: ${VIDEO_API_DOMAIN:?Set the backend domain in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      video:
+        ipv4_address: 172.28.0.2
+    depends_on:
+      api:
+        condition: service_healthy
+networks:
+  video:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+volumes:
+  video-data:
+  caddy-data:
+  caddy-config:
