@@ -9,6 +9,7 @@ let online = false;
 let pollTimer;
 let pollActive = false;
 let healthTimer;
+let healthActive = false;
 let apiBase = "";
 let storageAvailable = true;
 let session;
@@ -154,16 +155,33 @@ $("download-form").addEventListener("submit", async (event) => {
   finally { busy = false; controls(); }
 });
 async function checkService() {
+  if (healthActive) return;
   clearTimeout(healthTimer);
   if (!apiBase) { $("service-state").textContent = "下载服务尚未启用"; feedback("页面已就绪，下载服务部署完成后开放使用。"); controls(); return; }
+  const waiting = !online;
+  if (waiting) {
+    $("service-state").textContent = "正在连接服务";
+    $("service-state").dataset.ready = "false";
+    if (!busy) feedback("正在连接下载服务。休眠后启动可能需要约一分钟，请稍候…", "busy");
+  }
+  healthActive = true;
   try {
-    const health = await request("/v1/health");
+    const health = await request("/v1/health", { timeout: 65000 });
     online = health.status === "ready";
     $("service-state").textContent = online ? "服务已连接" : "服务正在维护";
     $("service-state").dataset.ready = String(online);
     if (!online) feedback("下载服务正在维护，请稍后重试。", "error");
-    else { $("retention-note").textContent = `结果暂存 ${health.retention_minutes} 分钟`; poll(); }
-  } catch (e) { online = false; $("service-state").textContent = "服务暂时无法连接"; feedback(e.message, "error"); }
+    else {
+      $("retention-note").textContent = `${Number.isFinite(health.max_bytes) ? `单文件最多 ${bytes(health.max_bytes)} · ` : ""}结果暂存 ${health.retention_minutes} 分钟`;
+      if (waiting && !busy) feedback("服务已连接，可以解析视频或继续查看任务。");
+      poll();
+    }
+  } catch (e) {
+    online = false;
+    $("service-state").textContent = "服务暂时无法连接";
+    $("service-state").dataset.ready = "false";
+    if (!busy) feedback(`${e.message}页面会自动重新连接。`, "error");
+  } finally { healthActive = false; }
   controls();
   healthTimer = setTimeout(checkService, online ? 120000 : 30000);
 }

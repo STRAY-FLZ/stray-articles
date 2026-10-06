@@ -10,8 +10,8 @@
   <script src="../../theme.js"></script>
   <link rel="stylesheet" href="../../site.css?v=20261004-directory-animation">
   <link rel="stylesheet" href="video.css?v=20261006">
-  <script src="config.js?v=20261006"></script>
-  <script type="module" src="video.js?v=20261006"></script>
+  <script src="config.js?v=20261006-render"></script>
+  <script type="module" src="video.js?v=20261006-render"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -48,7 +48,7 @@
           <textarea id="video-link" name="url" rows="2" maxlength="4096" placeholder="粘贴视频网页链接，或包含链接的分享文字…" aria-describedby="link-hint feedback" required></textarea>
           <button id="analyze-button" class="primary-button" type="submit">解析视频 <span aria-hidden="true">↗</span></button>
         </div>
-        <p id="link-hint" class="field-hint">支持单条视频与短链接，暂不支持直播、合集或图文笔记。</p>
+        <p id="link-hint" class="field-hint">支持单条视频与短链接。抖音、小红书部分链接受源站验证限制，可能无法提取。</p>
       </form>
       <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
       <noscript><p class="feedback is-error">请开启浏览器的 JavaScript 后使用此工具。</p></noscript>
@@ -79,6 +79,7 @@
     </section>
     <section class="usage-notes" aria-label="使用说明">
       <details><summary>关于清晰度与音轨 <span aria-hidden="true">＋</span></summary><p>这里只提供源视频当前可取得的档位。部分视频只有一个清晰度，或需要在源站登录后才能观看。原始音轨直接保留已有音质；转换 MP3 不会提升音质。音画分离会输出两个文件，无声视频需要配合音频播放。</p></details>
+      <p>当前为免费试用。首次连接或休眠后，启动可能需要约一分钟；结果请及时保存，服务重启后可能提前失效。</p>
       <p>请用于你拥有或已获许可的视频。链接会发送至下载服务处理，工具不提供付费内容解锁。</p>
     </section>
     <footer class="video-footer"><span>Stray's Blog</span><span>留住画面，也留住声音。</span><a href="../index.html">回到工具 ↑</a></footer>
