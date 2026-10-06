@@ -85,6 +85,17 @@ def signature(key, identifier, file_key, expires):
     return base64.urlsafe_b64encode(hmac.new(key, data, hashlib.sha256).digest()).decode().rstrip("=")
 
 
+def cookie_file_status(path):
+    # Read only one byte; report no contents, paths or filesystem errors.
+    try:
+        with path.open("rb") as file:
+            return "readable" if file.read(1) else "empty"
+    except FileNotFoundError:
+        return "missing"
+    except OSError:
+        return "unreadable"
+
+
 def create_app(settings=None):
     settings = settings or Settings()
     limits = RateLimit()
@@ -140,6 +151,7 @@ def create_app(settings=None):
     def health():
         ready = bool(shutil.which(settings.ffmpeg) and shutil.which(settings.ffprobe))
         result = {"status": "ready" if ready else "maintenance", "retention_minutes": settings.retention // 60, "max_bytes": settings.max_bytes, "platforms": ["bilibili", "douyin", "xiaohongshu"]}
+        result["cookie_files"] = {platform: cookie_file_status(settings.cookie_dir / f"{platform}.txt") for platform in result["platforms"]}
         commit = os.environ.get("RENDER_GIT_COMMIT", "")
         if re.fullmatch(r"[a-f0-9]{40}", commit):
             result["build"] = commit

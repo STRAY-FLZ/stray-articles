@@ -68,6 +68,8 @@ Compose 的固定内网代理 IP 用于可信 `X-Real-IP`，避免将访问者�
 3. 在 Render 服务的 Environment → Secret Files 新建 `xiaohongshu.txt`（或 `douyin.txt`），填写文件内容，保存并部署。默认 `VIDEO_COOKIE_DIR=/etc/secrets` 已设置。
 4. 使用同一链接重新验收解析及实际文件下载。不要把 Cookie 发到聊天、公开仓库、网站页面或控制台日志；需要替换时继续在 Secret Files 更新。
 
+部署后可查看 [服务状态](https://stray-video-api.onrender.com/v1/health) 的 `cookie_files`。`readable` 表示文件存在、非空且服务进程可以读取；`missing` 表示未找到，`empty` 表示空文件，`unreadable` 表示无法读取。这里只检查挂载和读取，不验证 Netscape 格式、会话有效性或源站是否接受该会话。状态接口不返回文件内容、路径或读取错误。
+
 ## 本地验证
 
 Python 3.12、FFmpeg 与 FFprobe 可用时：
@@ -95,7 +97,7 @@ VIDEO_DATA_DIR=./data VIDEO_ALLOWED_ORIGINS=http://127.0.0.1:4173 \
 
 浏览器生成 32 字节随机会话令牌，用 `Authorization: Bearer <64位hex>` 访问任务接口；服务保存令牌的哈希。该令牌只是匿名任务归属，不是站点管理员账号。CORS 限定网站来源，配合 IP / 会话 / 全局限流；CORS 不是阻止所有第三方调用的认证机制。
 
-- `GET /v1/health`：处理程序是否就绪、保留时间、文件限制；Render 上额外提供公开的部署提交号 `build`，用于核对实际运行版本。
+- `GET /v1/health`：处理程序是否就绪、保留时间、文件限制和固定平台的会话文件读取状态 `cookie_files`；Render 上额外提供公开的部署提交号 `build`，用于核对实际运行版本。
 - `POST /v1/analyze`：`{"url":"视频分享链接"}`，返回解析 ID、标题、实际可用档位。
 - `POST /v1/jobs`：`{"analysis_id":"...","quality_id":"q1","mode":"split","audio_format":"original"}`。
 - `GET /v1/jobs/{id}`：状态与签名文件链接，不返回源站媒体 URL、Cookie 或内部路径。

@@ -50,6 +50,34 @@ def test_analysis_privacy_and_origin(client):
     assert response.headers["Access-Control-Allow-Origin"] == HEADERS["Origin"]
 
 
+def test_health_cookie_status_keeps_credentials_private(tmp_path, monkeypatch):
+    directory = tmp_path / "private-cookie-directory"
+    directory.mkdir()
+    cookie = directory / "xiaohongshu.txt"
+    cookie.write_text("dummy-private-session-value", encoding="utf-8")
+    (directory / "douyin.txt").touch()
+    app = create_app(Settings(data=tmp_path / "data", cookie_dir=directory))
+    with TestClient(app) as test:
+        response = test.get("/v1/health")
+        assert response.status_code == 200
+        assert response.json()["cookie_files"] == {"bilibili": "missing", "douyin": "empty", "xiaohongshu": "readable"}
+        assert "dummy-private-session-value" not in response.text
+        assert "private-cookie-directory" not in response.text
+
+        original_open = Path.open
+
+        def denied(path, *args, **kwargs):
+            if path == cookie:
+                raise PermissionError("private-path-and-session-must-not-leak")
+            return original_open(path, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "open", denied)
+        response = test.get("/v1/health")
+        assert response.json()["cookie_files"]["xiaohongshu"] == "unreadable"
+        assert "private-path-and-session-must-not-leak" not in response.text
+        assert response.json()["status"] in {"ready", "maintenance"}
+
+
 def test_job_isolation_signed_delivery_and_expiry(client):
     data = create_analysis(client)
     other = {"Authorization": "Bearer " + "b" * 64}
