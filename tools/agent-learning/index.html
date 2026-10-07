@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Stray 的 Agent 学习实验室：理解 Agent、插件与 Skill，沿六个阶段动手完成个人项目。">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="light dark">
+  <title>Agent 学习路线 · Stray</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="curriculum.js" defer></script>
+  <script src="progress.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#route" aria-label="Stray 学习实验室首页">Stray<span>LEARNING LAB</span></a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#route" data-view="route" aria-current="page">学习路线</a>
+          <a href="#concepts" data-view="concepts">概念地图</a>
+          <a href="#projects" data-view="projects">项目工作台</a>
+          <a href="#resources" data-view="resources">资料与备份</a>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="夜间模式" title="切换夜间模式"><span aria-hidden="true">☾</span></button>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <div class="eyebrow">A PERSONAL JOURNEY INTO AGENTS <span class="space-label">个人学习空间</span></div>
+        <h1 id="page-title">先理解，<br>再动手。</h1>
+        <p class="hero-lead">从一次对话，到自己的 <span>Agent。</span></p>
+        <p class="hero-description">厘清 Agent、插件与 Skill 的关系。用熟悉的 C 语言、电路笔记和日常学习，逐步完成六个个人项目。</p>
+        <div class="hero-actions"><button class="button" id="continue-hero" type="button">开始学习 <span aria-hidden="true">↗</span></button><a class="plain-link" href="#concepts">先看概念地图 →</a></div>
+        <p class="hero-meta">6 个阶段 <span>·</span> 6 个项目 <span>·</span> 约 16–20 小时，可按自己的节奏学习</p>
+      </div>
+      <aside class="progress-panel" aria-labelledby="progress-heading">
+        <div class="panel-top"><h2 id="progress-heading">你的学习进度</h2><span class="eyebrow">IN PROGRESS</span></div>
+        <div class="progress-visual"><div class="progress-ring" id="progress-ring" role="img" aria-label="学习进度 0%"><div><strong id="progress-percent">0<span>%</span></strong><span class="ring-label">一点一点，向前</span></div></div></div>
+        <div class="progress-numbers"><span><strong id="completed-count">0</strong> / <span id="total-count">42</span> 项完成</span><span id="completed-stages">0 / 6 阶段</span></div>
+        <div class="next-step"><span class="small-label">下一步</span><strong id="next-title">认识 Agent 与边界</strong><button id="continue-panel" class="text-button" type="button">进入阶段 <span aria-hidden="true">→</span></button></div>
+        <p class="storage-note" id="storage-status">进度自动保存在当前浏览器，可导出备份。</p>
+      </aside>
+    </section>
+    <div class="view-container" id="view-container"></div>
+    <noscript><p class="callout">请启用 JavaScript，才能使用阶段浏览和学习进度记录。</p></noscript>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><span>Stray's Learning Lab</span><span>把理解，变成做得出的东西。</span><a href="https://stray-flz.github.io/stray-articles/" target="_blank" rel="noopener noreferrer">个人网站 ↗</a></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><form method="dialog"><h2 id="reset-title">重置学习记录？</h2><p>将清除当前浏览器中的勾选和项目笔记。建议先导出备份。</p><div class="dialog-actions"><button class="secondary-button" value="cancel">保留记录</button><button class="button danger" value="reset">确认重置</button></div></form></dialog>
+</body>
+</html>
