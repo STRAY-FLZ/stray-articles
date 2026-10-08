@@ -1,0 +1,53 @@
+{
+  "checks": 61,
+  "metrics": {
+    "flashcardUiMs": 544,
+    "rich": {
+      "entries": 2000,
+      "units": 2668,
+      "questions": 20,
+      "importMs": 1412.7999999998137,
+      "assessmentMs": 265.5
+    },
+    "large": {
+      "entries": 10000,
+      "units": 10000,
+      "inputBytes": 4025559,
+      "parseMs": 476.5,
+      "previewMs": 8.699999999720603,
+      "importMs": 6001.899999999907,
+      "searchMs": 120,
+      "filterMs": 113.3000000002794,
+      "queueMs": 159.39999999990687,
+      "backupMs": 384,
+      "restoreMs": 6732.899999999907,
+      "restoredCount": 10000,
+      "newQueueSize": 20,
+      "imported": 10000,
+      "searchCount": 1000,
+      "filterCount": 5000,
+      "heapBefore": 57804800,
+      "heapAfter": 72290079
+    },
+    "homepage10kMs": 779,
+    "learning10kMs": 1316,
+    "twentyCardSession": {
+      "minMs": 321,
+      "maxMs": 927,
+      "meanMs": 577.7,
+      "heapStart": 31638635,
+      "heapEnd": 13875535
+    },
+    "environment": {
+      "node": "v24.19.0",
+      "browser": "151.0.7922.173",
+      "platform": "linux",
+      "cpus": 3,
+      "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+      "totalMemoryBytes": 10452496384,
+      "viewport": "1365x900",
+      "context": "headless Chromium, loopback HTTP, synthetic dataset, single run; heap is browser estimate"
+    }
+  },
+  "errors": []
+}
