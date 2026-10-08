@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="个人词库、主动回忆与 FSRS 间隔复习。所有学习数据保存在浏览器本地。"
+    />
+    <title>英语背词 · Stray</title>
+    <script src="../../theme.js"></script>
+    <link
+      rel="stylesheet"
+      href="../../site.css?v=20261004-directory-animation"
+    />
+    <link rel="stylesheet" href="vocabulary.css" />
+    <script type="module" src="app.mjs"></script>
+  </head>
+  <body class="vocabulary-app">
+    <a class="skip-link" href="#view">跳到正文</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a
+          class="brand"
+          href="../../index.html"
+          aria-label="Stray，返回个人网站首页"
+          >Stray</a
+        >
+        <div class="header-actions">
+          <a href="../../index.html">返回首页 ↗</a>
+          <div class="theme-control">
+            <button
+              class="theme-toggle"
+              type="button"
+              role="switch"
+              aria-label="夜间模式"
+              aria-checked="false"
+              title="开启夜间模式"
+              data-theme-toggle
+            >
+              <span class="theme-toggle__track" aria-hidden="true"
+                ><span class="theme-toggle__thumb"
+                  ><svg
+                    class="theme-icon theme-icon--sun"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                  >
+                    <circle cx="12" cy="12" r="3.5" />
+                    <path
+                      d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2m10-10 2-2"
+                    /></svg
+                  ><span class="theme-icon theme-icon--moon"></span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <nav class="app-nav shell" aria-label="英语背词导航">
+      <a href="#home" data-nav="home">首页</a
+      ><a href="#learn" data-nav="learn">开始学习</a
+      ><a href="#assessment" data-nav="assessment">开始检测</a
+      ><a href="#library" data-nav="library">我的词库</a
+      ><a href="#analytics" data-nav="analytics">学习统计</a
+      ><a href="#settings" data-nav="settings">计划与数据</a>
+    </nav>
+    <main id="view" class="shell vocabulary-main">
+      <p role="status">正在打开个人词库…</p>
+    </main>
+    <div class="notice-wrapper">
+      <p id="notice" role="status" aria-live="polite" hidden></p>
+      <button type="button" id="dismiss-notice" aria-label="关闭通知">×</button>
+    </div>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <span>Stray · 英语背词</span><span>本地词库 · 主动回忆 · FSRS</span
+        ><a href="../../tools/index.html">返回工具</a>
+      </div>
+    </footer>
+    <noscript
+      >英语背词需要启用 JavaScript 才能导入词汇并保存学习记录。</noscript
+    >
+  </body>
+</html>
