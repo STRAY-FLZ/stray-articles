@@ -201,7 +201,8 @@ html[data-theme="dark"] .hero-portrait {
 .tool-entry:hover h2, .tool-entry:focus-visible h2 { color: var(--blue); }
 
 /* Long-form reading retains a narrow measure and clear in-topic navigation. */
-.article-layout, .collection-layout { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: clamp(2rem, 5vw, 5rem); padding-top: 4.8rem; padding-bottom: 7rem; }
+.article-layout { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: clamp(2rem, 5vw, 5rem); padding-top: 4.8rem; padding-bottom: 7rem; }
+.collection-layout { display: block; padding-top: 4.8rem; padding-bottom: 7rem; }
 .article-main, .collection-main { min-width: 0; }
 .collection-layout .category-hero { display: block; padding-block: 0 3.5rem; }
 .collection-layout .thoughts-hero { padding-block: 0 3.5rem; }
@@ -259,8 +260,8 @@ html[data-theme="dark"] .article-head, html[data-theme="dark"] .article-end { bo
   .home-hero h1 { font-size: clamp(4.8rem, 9vw, 7rem); }
   .visual-plate--hero { min-height: 360px; }
   .topic-row { grid-template-columns: max-content minmax(8rem, 12rem) minmax(0, 1fr) 3rem 1rem; gap: 1rem; }
-  .article-layout, .collection-layout { grid-template-columns: 1fr; gap: 2rem; }
-  .article-main, .collection-main { grid-row: 2; }
+  .article-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .article-main { grid-row: 2; }
   .article-side { position: static; grid-row: 1; max-height: none; overflow: visible; border-block: 1px solid var(--line); }
   .reading-directory__toggle { display: flex; padding-block: .9rem; }
   .reading-directory__nav { max-height: min(60dvh, 32rem); overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: .5rem; }
