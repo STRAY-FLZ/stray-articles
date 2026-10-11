@@ -9,7 +9,7 @@
 - `thoughts/`：个人生活中的感想和经历，目前收录《【IAG2.0】你的收官，我的开始》
 - `topics/people/`、`topics/visual/`、`topics/world/`：旧栏目链接，自动跳转到“灵感”
 - `travel/`：旅途栏目，保留原有网址
-- `tools/`：笔记和小工具栏目，含文档格式互转与视频下载工具
+- `tools/`：三列工具目录，页眉为“Stray | Tools”；办公收录 PDF/Word 互转与视频下载，学习收录英语背词、agent入门和电路实验室，软件推荐列暂时留空。工具页的专用排版位于 `tools.css`，不会影响其他页面。
 - `tools/pdf-word/`：PDF 与 Word 互转、图片制作 PDF、一键排版和预览。单文件上限 150 MB，文件在浏览器本地处理。功能、限制和本地启动方式见 [使用说明](tools/pdf-word/README.md)。
 - `tools/video/`：视频下载工具已接入 Render 免费试用服务，可选择源站实际清晰度、导出独立音轨或分离音画。B站公开样例已通过云端解析、360P 下载和音画分离（无声视频 + MP3）；抖音、小红书部分链接受源站验证限制。单文件最多 128 MB，结果最多暂存 15 分钟，休眠或重启可能提前失效。
 - `services/video-downloader/`：视频解析、下载及音画处理后端，含 Docker 与 Render 免费试用配置。部署、验证与平台限制见 [使用说明](services/video-downloader/README.md)。

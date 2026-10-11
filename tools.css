@@ -1,0 +1,39 @@
+/* Tools landing page only: retain the shared header, navigation and palette. */
+.tools-brand { display: flex; flex: 0 0 auto; align-items: center; gap: 1rem; }
+.tools-brand__divider { width: 1px; height: 1.65rem; background: #000; }
+.tools-brand__label { color: var(--ink); font-size: 1.3rem; font-weight: 500; letter-spacing: -.025em; }
+
+.tools-directory { padding-block: 3.5rem 4.5rem; }
+.tools-directory__title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: max(32rem, calc(100svh - var(--header-clearance) - 14rem)); }
+.tools-column { min-width: 0; padding-inline: clamp(1.25rem, 3vw, 2.75rem); }
+.tools-column:first-child { padding-left: 0; }
+.tools-column:last-child { padding-right: 0; }
+.tools-column + .tools-column { border-left: 1px solid var(--ink); }
+.tools-column h2 { display: inline-block; margin: 0 0 2rem; padding: .55rem 1.25rem; border: 1px solid var(--ink); border-radius: 6px; color: var(--ink); font-size: 1.25rem; font-weight: 650; line-height: 1.5; }
+.tools-column__items { display: grid; gap: 1.4rem; }
+.tools-tile { display: flex; align-items: center; min-height: 7rem; padding: 1.25rem 1.35rem; border: 1px solid var(--ink); border-radius: 4px; background: transparent; color: var(--ink); transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+.tools-tile h3 { margin: 0; font-family: var(--serif); font-size: clamp(1.18rem, 1.6vw, 1.45rem); font-weight: 600; line-height: 1.6; }
+.tools-tile:hover, .tools-tile:focus-visible { border-color: var(--blue); background: var(--row-hover); color: var(--blue); }
+.tools-column__empty { margin: .5rem 0 0; color: var(--muted); font-size: .9rem; line-height: 1.8; }
+
+html[data-theme="dark"] .tools-brand__divider { background: var(--ink); }
+html[data-theme="dark"] :is(.tools-column + .tools-column, .tools-column h2, .tools-tile) { border-color: var(--line); }
+html[data-theme="dark"] .tools-tile:hover, html[data-theme="dark"] .tools-tile:focus-visible { border-color: var(--blue); }
+
+@media (max-width: 700px) {
+  .tools-brand { gap: .8rem; }
+  .tools-brand__label { font-size: 1.15rem; }
+  .tools-directory { padding-block: 2.4rem 3.5rem; }
+  .tools-grid { grid-template-columns: 1fr; min-height: 0; gap: 2.5rem; }
+  .tools-column { padding-inline: 0; }
+  .tools-column + .tools-column { padding-top: 2.5rem; border-left: 0; border-top: 1px solid var(--ink); }
+  .tools-column h2 { margin-bottom: 1.5rem; }
+  .tools-column__items { gap: 1.1rem; }
+  .tools-tile { min-height: 6rem; }
+  .tools-tile h3 { font-size: 1.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-tile { transition: none; }
+}
